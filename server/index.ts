@@ -1,15 +1,38 @@
-import fastify from "fastify";
+import { Elysia, t } from "elysia";
+import {
+  addGreeting,
+  getGreetings,
+  MAX_MESSAGE_LENGTH,
+  MAX_USERNAME_LENGTH,
+} from "./greetings";
 
-const server = fastify();
+const port = 4000;
+const hostname = "0.0.0.0";
 
-server.get("/ping", async (request, reply) => {
-  return "pong\n";
-});
+new Elysia()
+  .get("/", () => "Hello Elysia")
+  .get("/hello", "Do you miss me?")
+  .get("/greetings", () => {
+    return getGreetings();
+  })
+  .post(
+    "/greeting",
+    ({ body }) => {
+      const greeting = addGreeting({
+        message: body.message,
+        username: body.username,
+        createdAt: new Date(),
+      });
 
-server.listen({ port: 8080 }, (err, address) => {
-  if (err) {
-    console.error(err);
-    process.exit(1);
-  }
-  console.log(`Server listening at ${address}`);
-});
+      return greeting;
+    },
+    {
+      body: t.Object({
+        message: t.String({ maxLength: MAX_MESSAGE_LENGTH }),
+        username: t.String({ maxLength: MAX_USERNAME_LENGTH }),
+      }),
+    },
+  )
+  .listen({ port, hostname }, ({ hostname, port }) => {
+    console.log(`Server is running on ${hostname}:${port}`);
+  });

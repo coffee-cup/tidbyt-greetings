@@ -2,18 +2,27 @@
 import Layout from "../layouts/Layout.astro";
 
 // This would typically come from a database or API
-const pastMessages = [
-  { greeting: "Hello there!", name: "Alice" },
-  { greeting: "Good morning!", name: "Bob" },
-  { greeting: "Have a nice day!", name: "Charlie" },
-];
+// const pastMessages = [
+//   { greeting: "Hello there!", name: "Alice" },
+//   { greeting: "Good morning!", name: "Bob" },
+//   { greeting: "Have a nice day!", name: "Charlie" },
+// ];
+
+const apiDomain = process.env.PUBLIC_API_URL;
+const apiUrl =
+  apiDomain != null ? `https://${apiDomain}` : "http://localhost:4000";
+
+const res = await fetch(`${apiUrl}/greetings`);
+const pastMessages: { message: string; username: string }[] = await res.json();
+
+console.log(pastMessages);
 ---
 
 <Layout title="Greeting Website">
   <main
     class="bg-base text-text p-4 min-h-screen flex flex-col items-center justify-center"
   >
-    <header class="mb-8">
+    <header class="mb-8 mt-12">
       <h1 class="text-love text-3xl font-bold mb-2">Tidbyt Greeting</h1>
       <p class="text-muted">Send me a message on my Tidbyt</p>
     </header>
@@ -57,10 +66,10 @@ const pastMessages = [
       <h2 class="text-subtle text-xl mb-4">Past Greetings</h2>
       <ul class="space-y-4">
         {
-          pastMessages.map(({ greeting, name }) => (
+          pastMessages.map(({ message, username }) => (
             <li class="bg-surface p-4 rounded-lg">
-              <p class="text-text">{greeting}</p>
-              <p class="text-foam text-sm mt-1">- {name}</p>
+              <p class="text-text">{message}</p>
+              <p class="text-foam text-sm mt-1">- {username}</p>
             </li>
           ))
         }

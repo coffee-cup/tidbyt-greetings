@@ -3,21 +3,30 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "server:dev": "bun --watch server/index.ts",
+    "server:build": "bun build server/index.ts --target bun --outdir ./dist",
+    "server:start": "NODE_ENV=production bun dist/index.js",
     "dev": "astro dev",
-    "start": "astro dev",
+    "start": "PORT=8080 HOST=0.0.0.0 bun run dist/server/entry.mjs",
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
+  "engines": {
+    "node": "22.x"
+  },
   "dependencies": {
     "@astrojs/check": "^0.9.3",
+    "@astrojs/node": "^8.3.4",
     "@astrojs/tailwind": "^5.1.1",
     "astro": "^4.15.8",
-    "fastify": "^5.0.0",
+    "elysia": "^1.1.13",
     "tailwindcss": "^3.4.12",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/bun": "^1.1.10",
     "@types/node": "^22.5.5",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1"
