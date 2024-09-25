@@ -1,13 +1,6 @@
-import {
-  index,
-  pgTable,
-  bigint,
-  varchar,
-  serial,
-  timestamp,
-} from "drizzle-orm/pg-core";
 import { type InferSelectModel } from "drizzle-orm";
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import { pgTable, serial, timestamp, varchar } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 export const greeting = pgTable("greeting", {

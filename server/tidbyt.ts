@@ -1,4 +1,4 @@
-import type { Greeting } from "./greetings";
+import type { Greeting } from "./db";
 
 export const renderGreeting = (greeting: Greeting) => {
   console.log("RENDERING GREETING", greeting);
