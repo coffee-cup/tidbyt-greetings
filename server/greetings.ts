@@ -1,27 +1,17 @@
-import { z } from "zod";
+import { desc } from "drizzle-orm";
+import { db, greeting, type InsertGreeting } from "./db";
 
-export const MAX_MESSAGE_LENGTH = 20;
-export const MAX_USERNAME_LENGTH = 10;
+export async function getGreetings() {
+  const res = await db
+    .select()
+    .from(greeting)
+    .orderBy(desc(greeting.createdAt));
 
-export const GreetingSchema = z.object({
-  message: z.string().max(MAX_MESSAGE_LENGTH),
-  username: z.string().max(MAX_USERNAME_LENGTH),
-  createdAt: z.date(),
-});
-
-export type Greeting = z.infer<typeof GreetingSchema>;
-
-const greetings: Greeting[] = [];
-
-export function getGreetings(): Greeting[] {
-  return greetings.sort(
-    (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
-  );
+  return res;
 }
 
-export function addGreeting(greeting: Greeting) {
-  GreetingSchema.parse(greeting);
+export async function addGreeting(data: InsertGreeting) {
+  await db.insert(greeting).values(data);
 
-  greetings.push(greeting);
-  return greeting;
+  return data;
 }

@@ -1,10 +1,6 @@
 import { Elysia, t } from "elysia";
-import {
-  addGreeting,
-  getGreetings,
-  MAX_MESSAGE_LENGTH,
-  MAX_USERNAME_LENGTH,
-} from "./greetings";
+import { addGreeting, getGreetings } from "./greetings";
+import { MAX_MESSAGE_LENGTH, MAX_AUTHOR_LENGTH } from "./db";
 
 const port = 4000;
 const hostname = "0.0.0.0";
@@ -20,8 +16,7 @@ new Elysia()
     ({ body }) => {
       const greeting = addGreeting({
         message: body.message,
-        username: body.username,
-        createdAt: new Date(),
+        author: body.author,
       });
 
       return greeting;
@@ -29,7 +24,7 @@ new Elysia()
     {
       body: t.Object({
         message: t.String({ maxLength: MAX_MESSAGE_LENGTH }),
-        username: t.String({ maxLength: MAX_USERNAME_LENGTH }),
+        author: t.String({ maxLength: MAX_AUTHOR_LENGTH }),
       }),
     },
   )

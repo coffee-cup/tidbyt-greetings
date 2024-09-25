@@ -13,9 +13,7 @@ const apiUrl =
   apiDomain != null ? `https://${apiDomain}` : "http://localhost:4000";
 
 const res = await fetch(`${apiUrl}/greetings`);
-const pastMessages: { message: string; username: string }[] = await res.json();
-
-console.log(pastMessages);
+const pastMessages: { message: string; author: string }[] = await res.json();
 ---
 
 <Layout title="Greeting Website">
@@ -66,10 +64,10 @@ console.log(pastMessages);
       <h2 class="text-subtle text-xl mb-4">Past Greetings</h2>
       <ul class="space-y-4">
         {
-          pastMessages.map(({ message, username }) => (
+          pastMessages.map(({ message, author }) => (
             <li class="bg-surface p-4 rounded-lg">
               <p class="text-text">{message}</p>
-              <p class="text-foam text-sm mt-1">- {username}</p>
+              <p class="text-foam text-sm mt-1">- {author}</p>
             </li>
           ))
         }
