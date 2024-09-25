@@ -23,8 +23,14 @@ new Elysia()
     },
     {
       body: t.Object({
-        message: t.String({ maxLength: MAX_MESSAGE_LENGTH }),
-        author: t.String({ maxLength: MAX_AUTHOR_LENGTH }),
+        message: t.String({
+          maxLength: MAX_MESSAGE_LENGTH,
+          error: `Message must be less than ${MAX_MESSAGE_LENGTH} characters`,
+        }),
+        author: t.String({
+          maxLength: MAX_AUTHOR_LENGTH,
+          error: `Author must be less than ${MAX_AUTHOR_LENGTH} characters`,
+        }),
       }),
     },
   )

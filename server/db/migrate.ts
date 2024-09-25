@@ -1,8 +1,7 @@
 import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
+import postgres from "postgres";
 import { dbUrl } from "./connection";
-import { sql } from "drizzle-orm";
 
 const migrationClient = postgres(dbUrl, { max: 1 });
 
