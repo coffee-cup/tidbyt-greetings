@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { ArrowRight } from "lucide-astro";
 
 // This would typically come from a database or API
 // const pastMessages = [
@@ -18,54 +19,75 @@ const pastMessages: { message: string; author: string }[] = await res.json();
 
 <Layout title="Greeting Website">
   <main
-    class="bg-base text-text p-4 min-h-screen flex flex-col items-center justify-center"
+    class="p-4 min-h-screen flex flex-col items-center justify-center text-text bg-gradient-to-b from-base via-crust to-mantle"
   >
-    <header class="mb-8 mt-12">
-      <h1 class="text-love text-3xl font-bold mb-2">Tidbyt Greeting</h1>
-      <p class="text-muted">Send me a message on my Tidbyt</p>
+    <header class="mb-8 mt-12 text-center">
+      <h1
+        class="text-4xl text-flamingo font-bold mb-4"
+        style={{
+          textShadow:
+            "0 0 10px rgba(203, 166, 247, 0.7), 0 0 20px rgba(203, 166, 247, 0.5)",
+        }}
+      >
+        Tidbyt Message Board
+      </h1>
+      <p class="text-muted text-lg">
+        Send me a message on my Tidbyt. <a
+          href="/about"
+          class="whitespace-nowrap hover:text-peach"
+          ><span class="underline">Learn more</span>
+          <ArrowRight class="inline-block" size={14} /></a
+        >
+      </p>
     </header>
 
-    <form class="bg-surface p-6 rounded-lg border border-iris w-full max-w-lg">
+    <form
+      class="p-6 rounded-lg border border-surface-0 shadow-lg w-full max-w-lg bg-base/80 backdrop-blur-xl"
+    >
       <div class="mb-4">
-        <label for="greeting" class="block text-pine mb-2"
-          >Your Greeting (max 20 chars)</label
-        >
         <input
           type="text"
-          id="greeting"
-          name="greeting"
+          id="message"
+          name="message"
           maxlength="20"
-          class="w-full p-2 border rounded"
+          class="w-full bg-surface-0 p-2 border border-surface-1 rounded"
+          placeholder="your message (max 20 chars)"
           required
         />
       </div>
       <div class="mb-4">
-        <label for="name" class="block text-pine mb-2"
-          >Your Name (max 10 chars)</label
-        >
         <input
           type="text"
           id="name"
           name="name"
           maxlength="10"
-          class="w-full p-2 border rounded"
+          class="w-full bg-surface-0 p-2 border border-surface-1 rounded"
+          placeholder="your name (max 10 chars)"
           required
         />
       </div>
       <button
         type="submit"
-        class="bg-gold text-base px-4 py-2 rounded w-full hover:bg-rose transition-colors"
+        class="bg-pink hover:bg-peach text-base px-4 py-2 rounded w-full hover:bg-rose transition-colors"
       >
         Send Greeting
       </button>
     </form>
 
     <div class="mt-12 w-full max-w-lg">
-      <h2 class="text-subtle text-xl mb-4">Past Greetings</h2>
+      <h2
+        class="text-subtle text-xl font-medium mb-4"
+        style={{
+          textShadow:
+            "0 0 10px rgba(203, 166, 247, 0.7), 0 0 20px rgba(203, 166, 247, 0.5)",
+        }}
+      >
+        Past messages
+      </h2>
       <ul class="space-y-4">
         {
           pastMessages.map(({ message, author }) => (
-            <li class="bg-surface p-4 rounded-lg">
+            <li class="bg-surface-0/80 backdrop-blur-xl p-4 rounded-lg">
               <p class="text-text">{message}</p>
               <p class="text-foam text-sm mt-1">- {author}</p>
             </li>
