@@ -8,6 +8,7 @@ export const greeting = pgTable("greeting", {
   message: varchar("message", { length: 256 }),
   author: varchar("author", { length: 256 }),
   createdAt: timestamp("created_at").defaultNow(),
+  displayedUntil: timestamp("displayed_until").notNull(),
 });
 
 export const MAX_MESSAGE_LENGTH = 20;

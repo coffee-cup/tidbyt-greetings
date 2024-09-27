@@ -9,12 +9,27 @@ import { ArrowRight } from "lucide-astro";
 //   { greeting: "Have a nice day!", name: "Charlie" },
 // ];
 
+type Greeting = {
+  message: string;
+  author: string;
+  createdAt: string;
+  displayedUntil: string;
+};
+
 const apiDomain = process.env.PUBLIC_API_URL;
 const apiUrl =
   apiDomain != null ? `https://${apiDomain}` : "http://localhost:4000";
 
 const res = await fetch(`${apiUrl}/greetings`);
-const pastMessages: { message: string; author: string }[] = await res.json();
+const messages: Greeting[] = await res.json();
+
+const currentMessage = messages.find(
+  (message) => message.displayedUntil > new Date().toISOString(),
+);
+
+const pastMessages = messages.filter(
+  (message) => message.displayedUntil < new Date().toISOString(),
+);
 ---
 
 <Layout title="Greeting Website">
@@ -74,6 +89,31 @@ const pastMessages: { message: string; author: string }[] = await res.json();
       </button>
     </form>
 
+    {
+      currentMessage && (
+        <div class="mt-12 w-full max-w-lg">
+          <h2
+            class="text-sapphire text-xl font-medium mb-4"
+            style={{
+              textShadow:
+                "0 0 10px rgba(203, 166, 247, 0.7), 0 0 20px rgba(203, 166, 247, 0.5)",
+            }}
+          >
+            Current message
+          </h2>
+
+          <div class="bg-surface-0/80 backdrop-blur-xl p-4 rounded-lg">
+            <p class="text-text">{currentMessage.message}</p>
+            <p class="text-foam text-sm mt-1">- {currentMessage.author}</p>
+            <p class="text-subtle text-xs mt-2">
+              Displayed until:{" "}
+              {new Date(currentMessage.displayedUntil).toLocaleString()}
+            </p>
+          </div>
+        </div>
+      )
+    }
+
     <div class="mt-12 w-full max-w-lg">
       <h2
         class="text-subtle text-xl font-medium mb-4"
@@ -86,7 +126,7 @@ const pastMessages: { message: string; author: string }[] = await res.json();
       </h2>
       <ul class="space-y-4">
         {
-          pastMessages.map(({ message, author }) => (
+          messages.map(({ message, author }) => (
             <li class="bg-surface-0/80 backdrop-blur-xl p-4 rounded-lg">
               <p class="text-text">{message}</p>
               <p class="text-foam text-sm mt-1">- {author}</p>

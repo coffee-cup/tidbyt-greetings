@@ -21,6 +21,7 @@
     "@astrojs/node": "^8.3.4",
     "@astrojs/tailwind": "^5.1.1",
     "astro": "^4.15.8",
+    "dayjs": "^1.11.13",
     "drizzle-orm": "^0.33.0",
     "drizzle-zod": "^0.5.1",
     "elysia": "^1.1.13",

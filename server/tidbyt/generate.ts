@@ -27,7 +27,7 @@ export async function generate({
 // Run the function when the script is executed directly
 if (import.meta.main) {
   generate({
-    message: "beep boop",
+    message: "beep boop yoooooo",
     author: "jr",
   });
 }
