@@ -1,7 +1,7 @@
 load("render.star", "render")
 
-message = "hello world this is something long"
-author = "0123456789"
+message = "MESSAGE"
+author = "AUTHOR"
 
 def main():
   return render.Root(
