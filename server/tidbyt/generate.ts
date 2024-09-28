@@ -6,6 +6,8 @@ const TEMPLATE_FILE = path.join(__dirname, "template.star");
 
 const GENERATED_DIR = path.join(__dirname, "generated");
 
+const RENDER_FILE_NAME = "generated";
+
 export async function generate({
   message,
   author,
@@ -19,9 +21,12 @@ export async function generate({
     .replace("AUTHOR", author);
 
   await $`mkdir -p ${GENERATED_DIR}`;
-  fs.writeFileSync(path.join(GENERATED_DIR, "greeting.star"), rendered);
+  fs.writeFileSync(
+    path.join(GENERATED_DIR, `${RENDER_FILE_NAME}.star`),
+    rendered,
+  );
 
-  await $`pixlet render ${GENERATED_DIR}/greeting.star`;
+  await $`pixlet render ${GENERATED_DIR}/${RENDER_FILE_NAME}.star`;
 }
 
 // Run the function when the script is executed directly
@@ -30,4 +35,9 @@ if (import.meta.main) {
     message: "beep boop yoooooo",
     author: "jr",
   });
+}
+
+export function getLatestRenderFile() {
+  const renderedWebp = path.join(GENERATED_DIR, `${RENDER_FILE_NAME}.webp`);
+  return Bun.file(renderedWebp);
 }

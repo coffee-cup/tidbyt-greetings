@@ -1,6 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { ArrowRight } from "lucide-astro";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 // This would typically come from a database or API
 // const pastMessages = [
@@ -102,13 +106,20 @@ const pastMessages = messages.filter(
             Current message
           </h2>
 
-          <div class="bg-surface-0/80 backdrop-blur-xl p-4 rounded-lg">
-            <p class="text-text">{currentMessage.message}</p>
-            <p class="text-foam text-sm mt-1">- {currentMessage.author}</p>
-            <p class="text-subtle text-xs mt-2">
-              Displayed until:{" "}
-              {new Date(currentMessage.displayedUntil).toLocaleString()}
-            </p>
+          <div class="flex items-center justify-between gap-2 bg-surface-0/80 backdrop-blur-xl p-4 rounded-lg">
+            <div>
+              <p class="text-text">{currentMessage.message}</p>
+              <p class="text-foam text-sm mt-1">- {currentMessage.author}</p>
+              <p class="text-subtext-0/80 text-xs mt-2">
+                Displayed for{" "}
+                {dayjs(currentMessage.displayedUntil).fromNow(true)}
+              </p>
+            </div>
+
+            <img
+              src={`${apiUrl}/current`}
+              class="w-[128px] h-[64px] rounded-sm"
+            />
           </div>
         </div>
       )
@@ -126,7 +137,7 @@ const pastMessages = messages.filter(
       </h2>
       <ul class="space-y-4">
         {
-          messages.map(({ message, author }) => (
+          pastMessages.map(({ message, author }) => (
             <li class="bg-surface-0/80 backdrop-blur-xl p-4 rounded-lg">
               <p class="text-text">{message}</p>
               <p class="text-foam text-sm mt-1">- {author}</p>

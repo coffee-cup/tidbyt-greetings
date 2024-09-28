@@ -1,15 +1,30 @@
 import { Elysia, t } from "elysia";
-import { addGreeting, getGreetings } from "./greetings";
-import { MAX_MESSAGE_LENGTH, MAX_AUTHOR_LENGTH } from "./db";
+import { MAX_AUTHOR_LENGTH, MAX_MESSAGE_LENGTH } from "./db";
+import {
+  addGreeting,
+  getCurrentlyDisplayedGreeting,
+  getGreetings,
+} from "./greetings";
+import { getLatestRenderFile } from "./tidbyt/generate";
 
 const port = 4000;
 const hostname = "0.0.0.0";
 
 new Elysia()
-  .get("/", () => "Hello Elysia")
-  .get("/hello", "Do you miss me?")
+  .get("/", () => "Tidbyt Message Board")
+  .get("/hello", "hi")
   .get("/greetings", () => {
     return getGreetings();
+  })
+  .get("/current", () => {
+    const current = getCurrentlyDisplayedGreeting();
+    if (current == null) {
+      return {
+        message: "No message currently displayed",
+      };
+    }
+
+    return getLatestRenderFile();
   })
   .post(
     "/greeting",
