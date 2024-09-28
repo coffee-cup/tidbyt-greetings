@@ -26,10 +26,11 @@ export async function getCurrentlyDisplayedGreeting() {
 
 export async function addGreeting(
   data: Omit<InsertGreeting, "displayedUntil" | "video">,
+  force: boolean = false,
 ) {
   const currentlyDisplayedGreeting = await getCurrentlyDisplayedGreeting();
 
-  if (currentlyDisplayedGreeting) {
+  if (currentlyDisplayedGreeting && !force) {
     throw new Error("There is already a greeting displayed");
   }
 

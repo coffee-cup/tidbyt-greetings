@@ -19,10 +19,13 @@ new Elysia()
   .post(
     "/greeting",
     async ({ body }) => {
-      const greeting = await addGreeting({
-        message: body.message,
-        author: body.author,
-      });
+      const greeting = await addGreeting(
+        {
+          message: body.message,
+          author: body.author,
+        },
+        body.force,
+      );
 
       return greeting;
     },
@@ -36,6 +39,7 @@ new Elysia()
           maxLength: MAX_AUTHOR_LENGTH,
           error: `Author must be less than ${MAX_AUTHOR_LENGTH} characters`,
         }),
+        force: t.Optional(t.Boolean()),
       }),
     },
   )
