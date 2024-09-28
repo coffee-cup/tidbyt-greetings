@@ -27,6 +27,10 @@ export async function generate({
   );
 
   await $`pixlet render ${GENERATED_DIR}/${RENDER_FILE_NAME}.star`;
+  const renderedWebp = path.join(GENERATED_DIR, `${RENDER_FILE_NAME}.webp`);
+
+  const file = Bun.file(renderedWebp);
+  return file.arrayBuffer();
 }
 
 // Run the function when the script is executed directly
@@ -37,7 +41,13 @@ if (import.meta.main) {
   });
 }
 
-export function getLatestRenderFile() {
+export async function getLatestRenderFile() {
   const renderedWebp = path.join(GENERATED_DIR, `${RENDER_FILE_NAME}.webp`);
-  return Bun.file(renderedWebp);
+  const file = Bun.file(renderedWebp);
+
+  if (!file.exists()) {
+    throw new Error("Rendered file does not exist");
+  }
+
+  return file;
 }

@@ -1,5 +1,5 @@
 {
-  "id": "21cbf715-c103-45bc-a0c1-9efddb4f637b",
+  "id": "3f3c8c39-8d6a-4608-a0c9-17be9d06c7bb",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -18,13 +18,13 @@
           "name": "message",
           "type": "varchar(256)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "author": {
           "name": "author",
           "type": "varchar(256)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -32,6 +32,18 @@
           "primaryKey": false,
           "notNull": false,
           "default": "now()"
+        },
+        "displayed_until": {
+          "name": "displayed_until",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "video": {
+          "name": "video",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},

@@ -1,6 +1,7 @@
 import { desc, sql } from "drizzle-orm";
 import { db, greeting, type InsertGreeting } from "./db";
 import dayjs from "dayjs";
+import { generate } from "./tidbyt/generate";
 
 export const getDisplayedUntil = () => dayjs().add(10, "minutes").toDate();
 
@@ -24,7 +25,7 @@ export async function getCurrentlyDisplayedGreeting() {
 }
 
 export async function addGreeting(
-  data: Omit<InsertGreeting, "displayedUntil">,
+  data: Omit<InsertGreeting, "displayedUntil" | "video">,
 ) {
   const currentlyDisplayedGreeting = await getCurrentlyDisplayedGreeting();
 
@@ -32,11 +33,15 @@ export async function addGreeting(
     throw new Error("There is already a greeting displayed");
   }
 
+  const video = await generate(data);
+
   const displayedUntil = getDisplayedUntil();
+
+  const base64Video = Buffer.from(video).toString("base64");
 
   const [insertedRow] = await db
     .insert(greeting)
-    .values({ ...data, displayedUntil })
+    .values({ ...data, displayedUntil, video: base64Video })
     .returning();
 
   return insertedRow;

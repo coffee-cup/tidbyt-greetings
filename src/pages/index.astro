@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import { ArrowRight } from "lucide-astro";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import Video from "../components/Video.astro";
 
 dayjs.extend(relativeTime);
 
@@ -18,6 +19,7 @@ type Greeting = {
   author: string;
   createdAt: string;
   displayedUntil: string;
+  video: string;
 };
 
 const apiDomain = process.env.PUBLIC_API_URL;
@@ -116,10 +118,7 @@ const pastMessages = messages.filter(
               </p>
             </div>
 
-            <img
-              src={`${apiUrl}/current`}
-              class="w-[128px] h-[64px] rounded-sm"
-            />
+            <Video video={currentMessage.video} />
           </div>
         </div>
       )

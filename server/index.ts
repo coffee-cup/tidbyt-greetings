@@ -16,20 +16,10 @@ new Elysia()
   .get("/greetings", () => {
     return getGreetings();
   })
-  .get("/current", () => {
-    const current = getCurrentlyDisplayedGreeting();
-    if (current == null) {
-      return {
-        message: "No message currently displayed",
-      };
-    }
-
-    return getLatestRenderFile();
-  })
   .post(
     "/greeting",
-    ({ body }) => {
-      const greeting = addGreeting({
+    async ({ body }) => {
+      const greeting = await addGreeting({
         message: body.message,
         author: body.author,
       });

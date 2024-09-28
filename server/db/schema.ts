@@ -1,14 +1,21 @@
 import { type InferSelectModel } from "drizzle-orm";
-import { pgTable, serial, timestamp, varchar } from "drizzle-orm/pg-core";
+import {
+  customType,
+  pgTable,
+  serial,
+  timestamp,
+  varchar,
+} from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 export const greeting = pgTable("greeting", {
   id: serial("id").primaryKey(),
-  message: varchar("message", { length: 256 }),
-  author: varchar("author", { length: 256 }),
+  message: varchar("message", { length: 256 }).notNull(),
+  author: varchar("author", { length: 256 }).notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   displayedUntil: timestamp("displayed_until").notNull(),
+  video: varchar("video").notNull(),
 });
 
 export const MAX_MESSAGE_LENGTH = 20;
