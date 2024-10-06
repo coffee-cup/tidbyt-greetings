@@ -62,25 +62,27 @@ const pastMessages = messages.filter(
           id="message"
           name="message"
           maxlength="20"
-          class="w-full bg-surface-0 p-2 border border-surface-1 rounded"
+          class="w-full bg-surface-0 p-2 border border-surface-1 rounded focus:outline-none focus:border-teal"
           placeholder="your message (max 20 chars)"
           required
         />
       </div>
+
       <div class="mb-4">
         <input
           type="text"
           id="name"
           name="name"
           maxlength="10"
-          class="w-full bg-surface-0 p-2 border border-surface-1 rounded"
+          class="w-full bg-surface-0 p-2 border border-surface-1 rounded focus:outline-none focus:border-teal"
           placeholder="your name (max 10 chars)"
           required
         />
       </div>
+
       <button
         type="submit"
-        class="bg-pink hover:bg-peach text-base px-4 py-2 rounded w-full hover:bg-rose transition-colors"
+        class="bg-pink hover:bg-peach text-base px-4 py-2 rounded w-full hover:bg-rose transition-colors focus:outline-none focus:bg-teal"
       >
         Send Greeting
       </button>
@@ -128,6 +130,7 @@ const pastMessages = messages.filter(
       >
         Past messages
       </h2>
+
       <ul class="space-y-4">
         {
           pastMessages.map(({ message, author, video }) => (
