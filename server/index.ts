@@ -14,6 +14,8 @@ new Elysia()
   .post(
     "/greeting",
     async ({ body }) => {
+      console.log("setting greeting", body);
+
       const greeting = await addGreeting(
         {
           message: body.message,
