@@ -1,11 +1,6 @@
 import { Elysia, t } from "elysia";
 import { MAX_AUTHOR_LENGTH, MAX_MESSAGE_LENGTH } from "./db";
-import {
-  addGreeting,
-  getCurrentlyDisplayedGreeting,
-  getGreetings,
-} from "./greetings";
-import { getLatestRenderFile } from "./tidbyt/generate";
+import { addGreeting, getGreetings } from "./greetings";
 
 const port = 4000;
 const hostname = "0.0.0.0";
