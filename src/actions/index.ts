@@ -1,4 +1,4 @@
-import { defineAction } from "astro:actions";
+import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
 import { MAX_AUTHOR_LENGTH, MAX_MESSAGE_LENGTH } from "../../server/db";
 
@@ -25,17 +25,20 @@ export const server = {
         body: JSON.stringify({ message, author }),
       });
 
+      console.log("res", res);
+
       if (res.ok) {
-        console.log("GOOD");
-        // const body = await res.json();
-        // console.log("body", body);
+        const body = await res.json();
+        console.log("body", body);
 
         return { success: true };
       } else {
-        console.log("BAD");
-        console.log("text", await res.text());
-
-        return { success: false };
+        const text = await res.text();
+        console.log("text", text);
+        throw new ActionError({
+          message: "Failed to set greeting",
+          code: "BAD_REQUEST",
+        });
       }
     },
   }),

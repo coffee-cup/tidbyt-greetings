@@ -4,6 +4,7 @@ import Layout from "../layouts/Layout.astro";
 import { ArrowRight } from "lucide-astro";
 import Video from "../components/Video.astro";
 import { TimeDisplayed } from "../components/TimeDisplayed.tsx";
+import { MessageForm } from "../components/MessageForm.tsx";
 
 type Greeting = {
   id: number;
@@ -30,7 +31,7 @@ const pastMessages = messages.filter(
 );
 ---
 
-<Layout title="Greeting Website">
+<Layout title="Tidbyt Message Board">
   <main
     class="p-4 min-h-screen flex flex-col items-center justify-center text-text bg-gradient-to-b from-base via-crust to-mantle"
   >
@@ -54,40 +55,7 @@ const pastMessages = messages.filter(
       </p>
     </header>
 
-    <form
-      class="p-6 rounded-lg border border-surface-0 shadow-lg w-full max-w-lg bg-base/80 backdrop-blur-xl"
-      method="POST"
-      action={"/" + actions.setGreeting}
-    >
-      <div class="mb-4">
-        <input
-          type="text"
-          name="message"
-          maxlength="20"
-          class="w-full bg-surface-0 p-2 border border-surface-1 rounded focus:outline-none focus:border-teal"
-          placeholder="your message (max 20 chars)"
-          required
-        />
-      </div>
-
-      <div class="mb-4">
-        <input
-          type="text"
-          name="author"
-          maxlength="10"
-          class="w-full bg-surface-0 p-2 border border-surface-1 rounded focus:outline-none focus:border-teal"
-          placeholder="your name (max 10 chars)"
-          required
-        />
-      </div>
-
-      <button
-        type="submit"
-        class="bg-pink hover:bg-peach text-base px-4 py-2 rounded w-full hover:bg-rose transition-colors focus:outline-none focus:bg-teal"
-      >
-        Send Greeting
-      </button>
-    </form>
+    <MessageForm client:load />
 
     {
       currentMessage && (
