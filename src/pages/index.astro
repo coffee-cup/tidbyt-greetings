@@ -1,11 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { ArrowRight } from "lucide-astro";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import Video from "../components/Video.astro";
-
-dayjs.extend(relativeTime);
+import { TimeDisplayed } from "../components/TimeDisplayed.tsx";
 
 type Greeting = {
   id: number;
@@ -108,7 +105,10 @@ const pastMessages = messages.filter(
               <p class="text-foam text-sm mt-1">- {currentMessage.author}</p>
               <p class="text-subtext-0/80 text-xs mt-2">
                 Displayed for{" "}
-                {dayjs(currentMessage.displayedUntil).fromNow(true)}
+                <TimeDisplayed
+                  time={currentMessage.displayedUntil}
+                  client:load
+                />
               </p>
             </div>
 

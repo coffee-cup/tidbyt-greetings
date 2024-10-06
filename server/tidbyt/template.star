@@ -20,7 +20,7 @@ def main():
           ),
           render.Marquee(
             child=render.Text(
-              author,
+              "-" + author,
               font="tb-8"
             ),
             width=64,
