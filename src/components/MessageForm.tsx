@@ -4,6 +4,26 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useErrorMessage } from "../hooks/useErrorMessage";
 import { useMessages, type Message } from "../hooks/useMessages";
 import { cn } from "../styles";
+import { useCurrentTime } from "../hooks/useCurrentTime";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+
+dayjs.extend(duration);
+
+const formatTimeRemaining = ({
+  now,
+  displayedUntil,
+}: {
+  now: Date;
+  displayedUntil: Date;
+}) => {
+  const duration = dayjs.duration(dayjs(displayedUntil).diff(dayjs(now)));
+  const minutes = duration.minutes();
+  const seconds = duration.seconds();
+  if (duration.asSeconds() <= 10) return `${seconds}s`;
+  if (minutes > 0) return `${minutes}m ${seconds}s`;
+  return `${seconds}s`;
+};
 
 export const MessageForm = () => {
   const { currentMessage } = useMessages();
@@ -27,10 +47,16 @@ export const MessageForm = () => {
   });
 
   const isDisabled = currentMessage != null;
+  const currentTime = useCurrentTime(1);
+
+  const remainingTimeString = formatTimeRemaining({
+    now: currentTime,
+    displayedUntil: dayjs(currentMessage?.displayedUntil).toDate(),
+  });
 
   return (
     <form
-      className="relative p-4 md:p-6 rounded-lg border border-surface-0 shadow-lg w-full max-w-lg bg-base/80 backdrop-blur-xl"
+      className="relative p-4 md:p-6 rounded-lg border border-teal/20 shadow-lg w-full max-w-lg bg-base/80 backdrop-blur-xl"
       method="POST"
       action={"/" + actions.setGreeting}
       onSubmit={async (e) => {
@@ -50,7 +76,11 @@ export const MessageForm = () => {
           </p>
 
           <p className="text-center text-sm text-teal mb-4">
-            Wait for it to finish displaying before sending a new one.
+            You can send a new message in{" "}
+            <span className="text-peach tabular-nums">
+              {remainingTimeString}
+            </span>
+            .
           </p>
         </div>
       )}
@@ -80,9 +110,7 @@ export const MessageForm = () => {
         disabled={isDisabled || isPending}
         className={cn(
           "bg-pink text-base px-4 py-2 rounded w-full transition-colors focus:outline-none focus-visible:bg-teal disabled:opacity-50",
-          !isDisabled
-            ? "hover:bg-peach hover:bg-rose"
-            : "bg-pink/10 cursor-not-allowed",
+          !isDisabled ? "hover:bg-teal" : "bg-pink/10 cursor-not-allowed",
         )}
       >
         {isPending ? "Sending..." : "Send Message"}

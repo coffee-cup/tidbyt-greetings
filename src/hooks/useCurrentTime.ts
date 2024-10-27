@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 
-export const useCurrentTime = () => {
-  const [currentTime, setCurrentTime] = useState(new Date().toISOString());
+export const useCurrentTime = (updateInterval = 5) => {
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentTime(new Date().toISOString());
-    }, 1000 * 5);
+      setCurrentTime(new Date());
+    }, 1000 * updateInterval);
 
     return () => clearInterval(timer);
   }, []);

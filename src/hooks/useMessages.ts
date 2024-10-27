@@ -31,7 +31,10 @@ export const useMessages = () => {
   const currentTime = useCurrentTime();
 
   const currentMessage = useMemo(
-    () => messages.find((message) => message.displayedUntil > currentTime),
+    () =>
+      messages.find(
+        (message) => message.displayedUntil > currentTime.toISOString(),
+      ),
     [messages, currentTime],
   );
 
