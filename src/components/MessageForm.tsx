@@ -1,11 +1,9 @@
 import { actions } from "astro:actions";
 // import { MAX_AUTHOR_LENGTH, MAX_MESSAGE_LENGTH } from "../../server/db";
-import { useStore } from "@nanostores/react";
-import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useErrorMessage } from "../hooks/useErrorMessage";
 import { useMessages, type Message } from "../hooks/useMessages";
 import { cn } from "../styles";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const MessageForm = () => {
   const { currentMessage } = useMessages();
@@ -14,7 +12,8 @@ export const MessageForm = () => {
   const queryClient = useQueryClient();
 
   const { mutate: setGreeting, isPending } = useMutation({
-    mutationFn: (formData: FormData) => actions.setGreeting.orThrow(formData),
+    mutationFn: (data: { message: string; author: string }) =>
+      actions.setGreeting.orThrow(data),
     onSuccess: ({ greeting }) => {
       queryClient.setQueryData(["messages"], (old: Message[]) => [
         ...old,
@@ -38,7 +37,10 @@ export const MessageForm = () => {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
-        setGreeting(formData);
+        setGreeting({
+          message: formData.get("message") as string,
+          author: formData.get("author") as string,
+        });
       }}
     >
       {isDisabled && (
