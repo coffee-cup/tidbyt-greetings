@@ -3,7 +3,7 @@ import { db, greeting, type InsertGreeting } from "./db";
 import dayjs from "dayjs";
 import { generate } from "./tidbyt/generate";
 
-const NUM_MINUTES_TO_DISPLAY = 1;
+const NUM_MINUTES_TO_DISPLAY = 5;
 
 export const getDisplayedUntil = () =>
   dayjs().add(NUM_MINUTES_TO_DISPLAY, "minutes").toDate();

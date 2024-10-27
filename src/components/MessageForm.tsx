@@ -44,9 +44,9 @@ export const MessageForm = () => {
       }}
     >
       {isDisabled && (
-        <div className="absolute inset-0 bg-mantle/80 rounded-lg backdrop-blur-sm flex items-center justify-center">
-          <p className="text-center text-base text-subtext-1 mb-8">
-            Only one message can be displayed at a time.
+        <div className="absolute z-[999999] inset-0 bg-mantle/80 rounded-lg backdrop-blur-sm flex items-center justify-center">
+          <p className="text-center text-sm text-teal mb-4">
+            There is already a message being displayed.
           </p>
         </div>
       )}
@@ -56,7 +56,7 @@ export const MessageForm = () => {
         name="message"
         maxLength={20}
         disabled={isDisabled}
-        className="w-full mb-4 bg-surface-0 p-2 border border-surface-1 rounded focus:outline-none focus:border-teal"
+        className="w-full mb-4 bg-surface-0 p-2 border border-surface-1 rounded focus:outline-none focus:border-teal disabled:opacity-50"
         placeholder="your message (max 20 chars)"
         required
       />
@@ -66,7 +66,7 @@ export const MessageForm = () => {
         name="author"
         maxLength={10}
         disabled={isDisabled}
-        className="w-full mb-4 bg-surface-0 p-2 border border-surface-1 rounded focus:outline-none focus:border-teal"
+        className="w-full mb-4 bg-surface-0 p-2 border border-surface-1 rounded focus:outline-none focus:border-teal disabled:opacity-50"
         placeholder="your name (max 10 chars)"
         required
       />
