@@ -44,9 +44,13 @@ export const MessageForm = () => {
       }}
     >
       {isDisabled && (
-        <div className="absolute z-[999999] inset-0 bg-mantle/80 rounded-lg backdrop-blur-sm flex items-center justify-center">
-          <p className="text-center text-sm text-teal mb-4">
+        <div className="absolute z-[999999] inset-0 bg-mantle/80 rounded-lg backdrop-blur-sm flex gap-2 flex-col items-center justify-center">
+          <p className="text-center text-sm text-teal">
             There is already a message being displayed.
+          </p>
+
+          <p className="text-center text-sm text-teal mb-4">
+            Wait for it to finish displaying before sending a new one.
           </p>
         </div>
       )}
