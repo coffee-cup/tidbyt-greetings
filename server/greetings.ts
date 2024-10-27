@@ -3,7 +3,7 @@ import { db, greeting, type InsertGreeting } from "./db";
 import dayjs from "dayjs";
 import { generate } from "./tidbyt/generate";
 
-const NUM_MINUTES_TO_DISPLAY = 5;
+const NUM_MINUTES_TO_DISPLAY = 10;
 
 const NUM_PAST_MESSAGES_TO_DISPLAY = 10;
 
