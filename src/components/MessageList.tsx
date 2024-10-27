@@ -1,4 +1,5 @@
 import { useMessages } from "../hooks/useMessages";
+import { cn } from "../styles";
 import { TimeDisplayed } from "./TimeDisplayed";
 import { Video } from "./Video";
 
@@ -48,7 +49,13 @@ export const MessageList = () => {
             Past messages
           </h2>
 
-          <ul className="space-y-4 [mask-image:linear-gradient(to_bottom,#000_calc(100%-160px),transparent)]">
+          <ul
+            className={cn(
+              "space-y-4",
+              pastMessages.length > 3 &&
+                "[mask-image:linear-gradient(to_bottom,#000_calc(100%-160px),transparent)]",
+            )}
+          >
             {pastMessages.map(({ id, message, author, video }) => (
               <li
                 key={id}

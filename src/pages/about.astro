@@ -1,0 +1,62 @@
+---
+import BlogExternalLink from "../components/BlogExternalLink.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="About | Message Board"
+  description="Send me a message on my Tidbyt."
+>
+  <main class="p-4 flex flex-col items-center">
+    <header class="mb-6 md:mb-8 mt-20 text-center">
+      <h1
+        class="text-3xl md:text-4xl leading-normal text-flamingo font-bold mb-4"
+        style={{
+          textShadow:
+            "0 0 10px rgba(203, 166, 247, 0.7), 0 0 20px rgba(203, 166, 247, 0.5)",
+        }}
+      >
+        <a href="/">Message Board</a>
+      </h1>
+    </header>
+
+    <div class="max-w-lg w-full text-left leading-relaxed space-y-4">
+      <p>
+        I have a <BlogExternalLink href="https://tidbyt.com/"
+          >Tidbyt</BlogExternalLink
+        >.
+      </p>
+
+      <p>
+        It is a little pixel-y screen that sits beside my desk and can display
+        things like the weather, time and date, live sports results, or even a
+        fireplace.
+      </p>
+
+      <p>
+        It also has <BlogExternalLink href="https://tidbyt.dev/"
+          >a great developer platform</BlogExternalLink
+        > where you can make your own apps to run on it. <span class="italic"
+          >Thats exactly what this site is.</span
+        >
+      </p>
+
+      <p>
+        You can send me a message and it will display on my screen for a few
+        minutes. If I'm home, I'll probably see it.
+      </p>
+
+      <p>
+        The code is open source on <BlogExternalLink
+          href="https://github.com/coffee-cup/tidbyt-greetings"
+          >GitHub</BlogExternalLink
+        >.
+      </p>
+    </div>
+
+    <div class="max-w-2xl mx-auto">
+      <video src="/about.mov" autoplay loop muted playsinline class="mt-8"
+      ></video>
+    </div>
+  </main>
+</Layout>
