@@ -11,9 +11,6 @@ export const server = {
       author: z.string().max(MAX_AUTHOR_LENGTH),
     }),
     handler: async ({ message, author }) => {
-      console.log("message", message);
-      console.log("apiUrl", apiUrl);
-
       const res = await fetch(`${apiUrl}/greeting`, {
         method: "POST",
         headers: {

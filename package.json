@@ -9,7 +9,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "bun run server/db/migrate.ts",
     "web:dev": "astro dev",
-    "web:start": "PORT=8080 HOST=0.0.0.0 bun run dist/server/entry.mjs",
+    "web:start": "PORT=8080 HOST=0.0.0.0 node dist/server/entry.mjs",
     "web:build": "astro check && astro build",
     "clean": "rm -rf dist"
   },
