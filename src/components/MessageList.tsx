@@ -2,12 +2,8 @@ import { useMessages, type Message } from "../hooks/useMessages";
 import { TimeDisplayed } from "./TimeDisplayed";
 import { Video } from "./Video";
 
-export const MessageList = ({
-  initialMessages,
-}: {
-  initialMessages: Message[];
-}) => {
-  const { currentMessage, pastMessages } = useMessages(initialMessages);
+export const MessageList = () => {
+  const { currentMessage, pastMessages } = useMessages();
 
   return (
     <div className="w-full flex flex-col items-center">

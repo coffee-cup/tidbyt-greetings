@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 
+import { getMessages } from "../hooks/useMessages";
 import { actions } from "astro:actions";
 import Layout from "../layouts/Layout.astro";
 import { ArrowRight } from "lucide-astro";
@@ -8,6 +9,9 @@ import { TimeDisplayed } from "../components/TimeDisplayed.tsx";
 import { MessageForm } from "../components/MessageForm.tsx";
 import { MessageList } from "../components/MessageList.tsx";
 import { apiUrl } from "../constants";
+import { QueryProvider, TestComponent } from "../components/QueryProvider";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
+import { MessageData } from "../components/MessageData";
 
 type Greeting = {
   id: number;
@@ -20,15 +24,26 @@ type Greeting = {
 
 const res = await fetch(`${apiUrl}/greetings`);
 const messages: Greeting[] = await res.json();
+
+const queryClient = new QueryClient();
+await queryClient.prefetchQuery({
+  queryKey: ["messages"],
+  queryFn: getMessages,
+});
+
+const dehydratedState = dehydrate(queryClient);
+
+console.log(messages.map((m) => m.message));
+console.log("dehydratedState", dehydratedState);
 ---
 
 <Layout title="Tidbyt Message Board">
   <main
     class="p-4 min-h-screen flex flex-col items-center text-text bg-gradient-to-b from-base via-crust to-mantle"
   >
-    <header class="mb-8 mt-20 text-center">
+    <header class="mb-6 md:mb-8 mt-20 text-center">
       <h1
-        class="text-4xl text-flamingo font-bold mb-4"
+        class="text-3xl md:text-4xl leading-normal text-flamingo font-bold mb-4"
         style={{
           textShadow:
             "0 0 10px rgba(203, 166, 247, 0.7), 0 0 20px rgba(203, 166, 247, 0.5)",
@@ -36,7 +51,8 @@ const messages: Greeting[] = await res.json();
       >
         Tidbyt Message Board
       </h1>
-      <p class="text-muted text-lg">
+
+      <p class="text-muted md:text-lg">
         Send me a message on my Tidbyt. <a
           href="/about"
           class="whitespace-nowrap hover:text-peach"
@@ -46,8 +62,6 @@ const messages: Greeting[] = await res.json();
       </p>
     </header>
 
-    <MessageForm client:load />
-
-    <MessageList client:only initialMessages={messages} />
+    <MessageData client:load dehydratedState={dehydratedState} />
   </main>
 </Layout>

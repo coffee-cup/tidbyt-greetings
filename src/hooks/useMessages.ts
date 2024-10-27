@@ -1,7 +1,6 @@
 import { useStore } from "@nanostores/react";
 import { useQuery } from "@tanstack/react-query";
 import { apiUrl } from "../constants";
-import { queryClient } from "../stores/query";
 
 export type Message = {
   id: number;
@@ -12,22 +11,19 @@ export type Message = {
   video: string;
 };
 
-export const useMessages = (initialMessages?: Message[]) => {
-  const client = useStore(queryClient);
-  const { data } = useQuery(
-    {
-      queryKey: ["messages"],
-      queryFn: async () => {
-        const res = await fetch(`${apiUrl}/greetings`);
-        const data = await res.json();
-        return data as Message[];
-      },
-      initialData: initialMessages,
-      refetchInterval: 1000,
-      refetchOnWindowFocus: true,
-    },
-    client,
-  );
+export const getMessages = async () => {
+  const res = await fetch(`${apiUrl}/greetings`);
+  const data = await res.json();
+  return data as Message[];
+};
+
+export const useMessages = () => {
+  const { data } = useQuery({
+    queryKey: ["messages"],
+    queryFn: getMessages,
+    refetchInterval: 2000,
+    refetchOnWindowFocus: true,
+  });
 
   const messages = data ?? [];
 
