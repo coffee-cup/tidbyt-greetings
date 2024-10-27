@@ -1,4 +1,4 @@
-import { useMessages, type Message } from "../hooks/useMessages";
+import { useMessages } from "../hooks/useMessages";
 import { TimeDisplayed } from "./TimeDisplayed";
 import { Video } from "./Video";
 

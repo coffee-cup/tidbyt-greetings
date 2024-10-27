@@ -1,10 +1,7 @@
 import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
 import { MAX_AUTHOR_LENGTH, MAX_MESSAGE_LENGTH } from "../../server/db";
-
-const apiDomain = process.env.PUBLIC_API_URL;
-const apiUrl =
-  apiDomain != null ? `https://${apiDomain}` : "http://localhost:4000";
+import { apiUrl } from "../constants";
 
 export const server = {
   setGreeting: defineAction({
@@ -14,6 +11,9 @@ export const server = {
       author: z.string().max(MAX_AUTHOR_LENGTH),
     }),
     handler: async ({ message, author }) => {
+      console.log("message", message);
+      console.log("apiUrl", apiUrl);
+
       const res = await fetch(`${apiUrl}/greeting`, {
         method: "POST",
         headers: {
