@@ -5,6 +5,8 @@ import { generate } from "./tidbyt/generate";
 
 const NUM_MINUTES_TO_DISPLAY = 5;
 
+const NUM_PAST_MESSAGES_TO_DISPLAY = 10;
+
 export const getDisplayedUntil = () =>
   dayjs().add(NUM_MINUTES_TO_DISPLAY, "minutes").toDate();
 
@@ -12,7 +14,8 @@ export async function getGreetings() {
   const res = await db
     .select()
     .from(greeting)
-    .orderBy(desc(greeting.createdAt));
+    .orderBy(desc(greeting.createdAt))
+    .limit(NUM_PAST_MESSAGES_TO_DISPLAY);
 
   return res;
 }

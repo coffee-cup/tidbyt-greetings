@@ -48,7 +48,7 @@ export const MessageList = () => {
             Past messages
           </h2>
 
-          <ul className="space-y-4">
+          <ul className="space-y-4 [mask-image:linear-gradient(to_bottom,#000_calc(100%-160px),transparent)]">
             {pastMessages.map(({ id, message, author, video }) => (
               <li
                 key={id}

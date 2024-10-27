@@ -56,7 +56,10 @@ export const MessageForm = () => {
 
   return (
     <form
-      className="relative p-4 md:p-6 rounded-lg border border-teal/20 shadow-lg w-full max-w-lg bg-base/80 backdrop-blur-xl"
+      className={cn(
+        "relative p-4 md:p-6 rounded-lg border border-teal/20 shadow-lg w-full max-w-lg bg-base/80 backdrop-blur-xl",
+        isDisabled && "select-none",
+      )}
       method="POST"
       action={"/" + actions.setGreeting}
       onSubmit={async (e) => {
