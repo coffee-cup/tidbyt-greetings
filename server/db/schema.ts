@@ -1,11 +1,5 @@
 import { type InferSelectModel } from "drizzle-orm";
-import {
-  customType,
-  pgTable,
-  serial,
-  timestamp,
-  varchar,
-} from "drizzle-orm/pg-core";
+import { pgTable, serial, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 

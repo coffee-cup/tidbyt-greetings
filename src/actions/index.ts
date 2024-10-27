@@ -27,7 +27,7 @@ export const server = {
         const body = await res.json();
         return { success: true, greeting: body };
       } else {
-        const text = await res.text();
+        // const text = await res.text();
         throw new ActionError({
           message: "Failed to set greeting",
           code: "BAD_REQUEST",

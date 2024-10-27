@@ -4,11 +4,9 @@ import {
   QueryClientProvider,
   type DehydratedState,
 } from "@tanstack/react-query";
-import type { Message } from "../hooks/useMessages";
+import { useState } from "react";
 import { MessageForm } from "./MessageForm";
 import { MessageList } from "./MessageList";
-import { QueryProvider, TestComponent } from "./QueryProvider";
-import { useState } from "react";
 
 export const MessageData = ({
   dehydratedState,

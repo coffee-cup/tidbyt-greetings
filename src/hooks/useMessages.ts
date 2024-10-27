@@ -1,8 +1,7 @@
-import { useStore } from "@nanostores/react";
 import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { apiUrl } from "../constants";
 import { useCurrentTime } from "./useCurrentTime";
-import { useMemo } from "react";
 
 export type Message = {
   id: number;
