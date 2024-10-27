@@ -5,17 +5,29 @@ import { useState } from "react";
 import { useErrorMessage } from "../hooks/useErrorMessage";
 import { useMessages, type Message } from "../hooks/useMessages";
 import { cn } from "../styles";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const MessageForm = () => {
   const { currentMessage } = useMessages();
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useErrorMessage();
 
   const queryClient = useQueryClient();
 
-  const isDisabled = isSubmitting || currentMessage != null;
+  const { mutate: setGreeting, isPending } = useMutation({
+    mutationFn: (formData: FormData) => actions.setGreeting.orThrow(formData),
+    onSuccess: ({ greeting }) => {
+      queryClient.setQueryData(["messages"], (old: Message[]) => [
+        ...old,
+        greeting,
+      ]);
+    },
+    onError: (error) => setError(error.message),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["messages"] });
+    },
+  });
+
+  const isDisabled = currentMessage != null;
 
   return (
     <form
@@ -25,17 +37,8 @@ export const MessageForm = () => {
       onSubmit={async (e) => {
         e.preventDefault();
 
-        setIsSubmitting(true);
-
         const formData = new FormData(e.currentTarget);
-        const res = await actions.setGreeting(formData);
-
-        if (res.error) {
-          setError(res.error.message);
-        }
-
-        setIsSubmitting(false);
-        queryClient.invalidateQueries({ queryKey: ["messages"] });
+        setGreeting(formData);
       }}
     >
       {isDisabled && (
@@ -68,7 +71,7 @@ export const MessageForm = () => {
 
       <button
         type="submit"
-        disabled={isDisabled}
+        disabled={isDisabled || isPending}
         className={cn(
           "bg-pink text-base px-4 py-2 rounded w-full transition-colors focus:outline-none focus-visible:bg-teal disabled:opacity-50",
           !isDisabled
@@ -76,7 +79,7 @@ export const MessageForm = () => {
             : "bg-pink/10 cursor-not-allowed",
         )}
       >
-        Send Message
+        {isPending ? "Sending..." : "Send Message"}
       </button>
 
       {error && <div className="text-rose-500 text-center mt-4">{error}</div>}

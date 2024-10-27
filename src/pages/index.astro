@@ -1,29 +1,11 @@
 ---
 export const prerender = false;
 
-import { getMessages } from "../hooks/useMessages";
-import { actions } from "astro:actions";
-import Layout from "../layouts/Layout.astro";
-import { ArrowRight } from "lucide-astro";
-import { TimeDisplayed } from "../components/TimeDisplayed.tsx";
-import { MessageForm } from "../components/MessageForm.tsx";
-import { MessageList } from "../components/MessageList.tsx";
-import { apiUrl } from "../constants";
-import { QueryProvider, TestComponent } from "../components/QueryProvider";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
+import { ArrowRight } from "lucide-astro";
 import { MessageData } from "../components/MessageData";
-
-type Greeting = {
-  id: number;
-  message: string;
-  author: string;
-  createdAt: string;
-  displayedUntil: string;
-  video: string;
-};
-
-const res = await fetch(`${apiUrl}/greetings`);
-const messages: Greeting[] = await res.json();
+import { getMessages } from "../hooks/useMessages";
+import Layout from "../layouts/Layout.astro";
 
 const queryClient = new QueryClient();
 await queryClient.prefetchQuery({
@@ -32,9 +14,6 @@ await queryClient.prefetchQuery({
 });
 
 const dehydratedState = dehydrate(queryClient);
-
-console.log(messages.map((m) => m.message));
-console.log("dehydratedState", dehydratedState);
 ---
 
 <Layout title="Tidbyt Message Board">

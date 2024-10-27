@@ -1,6 +1,8 @@
 import { useStore } from "@nanostores/react";
 import { useQuery } from "@tanstack/react-query";
 import { apiUrl } from "../constants";
+import { useCurrentTime } from "./useCurrentTime";
+import { useMemo } from "react";
 
 export type Message = {
   id: number;
@@ -27,12 +29,16 @@ export const useMessages = () => {
 
   const messages = data ?? [];
 
-  const currentMessage = messages.find(
-    (message) => message.displayedUntil > new Date().toISOString(),
+  const currentTime = useCurrentTime();
+
+  const currentMessage = useMemo(
+    () => messages.find((message) => message.displayedUntil > currentTime),
+    [messages, currentTime],
   );
 
-  const pastMessages = messages.filter(
-    (message) => message.id !== currentMessage?.id,
+  const pastMessages = useMemo(
+    () => messages.filter((message) => message.id !== currentMessage?.id),
+    [messages, currentMessage],
   );
 
   return { currentMessage, pastMessages };

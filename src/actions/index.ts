@@ -14,8 +14,6 @@ export const server = {
       author: z.string().max(MAX_AUTHOR_LENGTH),
     }),
     handler: async ({ message, author }) => {
-      console.log("setting greeting", message, author);
-
       const res = await fetch(`${apiUrl}/greeting`, {
         method: "POST",
         headers: {
@@ -25,16 +23,11 @@ export const server = {
         body: JSON.stringify({ message, author }),
       });
 
-      console.log("res", res);
-
       if (res.ok) {
         const body = await res.json();
-        console.log("body", body);
-
-        return { success: true };
+        return { success: true, greeting: body };
       } else {
         const text = await res.text();
-        console.log("text", text);
         throw new ActionError({
           message: "Failed to set greeting",
           code: "BAD_REQUEST",
