@@ -1,4 +1,5 @@
 import { Elysia, t } from "elysia";
+import { cors } from "@elysiajs/cors";
 import { MAX_AUTHOR_LENGTH, MAX_MESSAGE_LENGTH } from "./db";
 import { addGreeting, getGreetings } from "./greetings";
 
@@ -6,6 +7,7 @@ const port = 4000;
 const hostname = "0.0.0.0";
 
 new Elysia()
+  .use(cors())
   .get("/", () => "Tidbyt Message Board")
   .get("/hello", "hi")
   .get("/greetings", () => {
