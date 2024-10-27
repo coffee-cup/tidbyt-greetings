@@ -5,7 +5,7 @@ import { apiUrl } from "../constants";
 
 export const server = {
   setGreeting: defineAction({
-    accept: "json",
+    accept: "form",
     input: z.object({
       message: z.string().max(MAX_MESSAGE_LENGTH),
       author: z.string().max(MAX_AUTHOR_LENGTH),

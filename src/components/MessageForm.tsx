@@ -7,6 +7,7 @@ import { cn } from "../styles";
 import { useCurrentTime } from "../hooks/useCurrentTime";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+import { useRef } from "react";
 
 dayjs.extend(duration);
 
@@ -31,14 +32,18 @@ export const MessageForm = () => {
 
   const queryClient = useQueryClient();
 
+  const formRef = useRef<HTMLFormElement>(null);
+
   const { mutate: setGreeting, isPending } = useMutation({
-    mutationFn: (data: { message: string; author: string }) =>
-      actions.setGreeting.orThrow(data),
+    mutationFn: (data: FormData) => actions.setGreeting.orThrow(data),
     onSuccess: ({ greeting }) => {
       queryClient.setQueryData(["messages"], (old: Message[]) => [
         ...old,
         greeting,
       ]);
+
+      // Clear form values
+      formRef.current?.reset();
     },
     onError: (error) => setError(error.message),
     onSettled: () => {
@@ -56,6 +61,7 @@ export const MessageForm = () => {
 
   return (
     <form
+      ref={formRef}
       className={cn(
         "relative p-4 md:p-6 rounded-lg border border-teal/20 shadow-lg w-full max-w-lg bg-base/80 backdrop-blur-xl",
         isDisabled && "select-none",
@@ -66,10 +72,7 @@ export const MessageForm = () => {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
-        setGreeting({
-          message: formData.get("message") as string,
-          author: formData.get("author") as string,
-        });
+        setGreeting(formData);
       }}
     >
       {isDisabled && (
