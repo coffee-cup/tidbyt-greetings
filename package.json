@@ -6,6 +6,7 @@
     "server:dev": "bun --watch server/index.ts",
     "server:start": "NODE_ENV=production bun dist/index.js",
     "server:build": "bun build server/index.ts --target bun --outdir ./dist",
+    "push:start": "bun server/tidbyt/push.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "bun run server/db/migrate.ts",
     "web:dev": "astro dev",

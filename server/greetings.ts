@@ -22,7 +22,12 @@ export async function getCurrentlyDisplayedGreeting() {
     .select()
     .from(greeting)
     .where(sql`${greeting.displayedUntil} > ${dayjs().toISOString()}`)
+    .orderBy(desc(greeting.createdAt))
     .limit(1);
+
+  if (res.length === 0) {
+    return null;
+  }
 
   return res[0];
 }

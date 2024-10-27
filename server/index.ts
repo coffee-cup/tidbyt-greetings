@@ -26,6 +26,8 @@ new Elysia()
         body.force,
       );
 
+      await notifyPushServer();
+
       return greeting;
     },
     {
@@ -45,3 +47,18 @@ new Elysia()
   .listen({ port, hostname }, ({ hostname, port }) => {
     console.log(`Server is running on ${hostname}:${port}`);
   });
+
+const notifyPushServer = async () => {
+  const pushUrl = process.env.PUSH_SERVER_URL;
+  if (!pushUrl) {
+    console.log("PUSH_SERVER_URL is not set");
+    return;
+  }
+
+  try {
+    await fetch(pushUrl);
+    console.log("notified push server");
+  } catch (e) {
+    console.error("failed to notify push server", e);
+  }
+};

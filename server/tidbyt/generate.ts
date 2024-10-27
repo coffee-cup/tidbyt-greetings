@@ -5,16 +5,19 @@ import path from "node:path";
 const TEMPLATE_FILE = path.join(__dirname, "template.star");
 
 const GENERATED_DIR = path.join(__dirname, "generated");
-
 const RENDER_FILE_NAME = "generated";
 
-export async function generate({
-  message,
-  author,
-}: {
+export const RENDERED_FILE_PATH = path.join(
+  GENERATED_DIR,
+  `${RENDER_FILE_NAME}.webp`,
+);
+
+export type GenerateData = {
   message: string;
   author: string;
-}) {
+};
+
+export async function generate({ message, author }: GenerateData) {
   const template = fs.readFileSync(TEMPLATE_FILE, "utf8");
   const rendered = template
     .replace("MESSAGE", message)
@@ -27,9 +30,8 @@ export async function generate({
   );
 
   await $`pixlet render ${GENERATED_DIR}/${RENDER_FILE_NAME}.star`;
-  const renderedWebp = path.join(GENERATED_DIR, `${RENDER_FILE_NAME}.webp`);
 
-  const file = Bun.file(renderedWebp);
+  const file = Bun.file(RENDERED_FILE_PATH);
   return file.arrayBuffer();
 }
 
@@ -39,15 +41,4 @@ if (import.meta.main) {
     message: "beep boop yoooooo",
     author: "jr",
   });
-}
-
-export async function getLatestRenderFile() {
-  const renderedWebp = path.join(GENERATED_DIR, `${RENDER_FILE_NAME}.webp`);
-  const file = Bun.file(renderedWebp);
-
-  if (!file.exists()) {
-    throw new Error("Rendered file does not exist");
-  }
-
-  return file;
 }
