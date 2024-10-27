@@ -6,7 +6,7 @@ author = "AUTHOR"
 def main():
   return render.Root(
     child=render.Padding(
-      pad=2,
+      pad=4,
       child=render.Column(
         main_align="center",
         expanded=True,
