@@ -9,6 +9,11 @@ export default defineConfig({
   integrations: [tailwind(), react()],
   output: "server",
 
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "viewport",
+  },
+
   adapter: node({
     mode: "standalone",
   }),
