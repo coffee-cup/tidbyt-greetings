@@ -1,0 +1,42 @@
+{
+  "$schema": "/Users/jr/dev/railpack-go/test/schema.json",
+  "buildAptPackages": ["curl"],
+  "steps": {
+    "pixlet": {
+      "commands": [
+        "curl -LO https://github.com/tidbyt/pixlet/releases/download/v0.22.4/pixlet_0.22.4_linux_amd64.tar.gz",
+        "tar -xvf pixlet_0.22.4_linux_amd64.tar.gz",
+        "chmod +x ./pixlet",
+        "mv pixlet /usr/local/bin/pixlet"
+      ]
+    }
+  },
+  "deploy": {
+    "inputs": [
+      {
+        "image": "ghcr.io/railwayapp/railpack-runtime:latest"
+      },
+      {
+        "step": "packages:mise",
+        "include": [
+          "/mise/shims",
+          "/mise/installs",
+          "/usr/local/bin/mise",
+          "/etc/mise/config.toml",
+          "/root/.local/state/mise"
+        ]
+      },
+      {
+        "step": "build",
+        "include": [ "." ]
+      },
+      {
+        "step": "pixlet",
+        "include": [ "/usr/local/bin/pixlet" ]
+      },
+      {
+        "local": true,
+        "include": [ "." ] }
+    ]
+  }
+}
